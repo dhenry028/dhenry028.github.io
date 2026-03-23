@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>80 Tick Alpha — Structure. Patience. Discipline.</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:         #080810;
+      --bg2:        #0d0d1a;
+      --surface:    #11112a;
+      --border:     rgba(120, 80, 255, 0.18);
+      --violet:     #7c3aed;
+      --electric:   #a855f7;
+      --neon:       #c084fc;
+      --glow:       rgba(168, 85, 247, 0.35);
+      --text:       #e8e0ff;
+      --muted:      #7c7a99;
+      --mono:       'DM Mono', monospace;
+      --display:    'Syne', sans-serif;
+      --body:       'Chakra Petch', sans-serif;
+      --radius:     8px;
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── GRID BACKGROUND ────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(8,8,16,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--neon); transition: color 0.2s; }
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 8px 20px;
+      border: 1px solid var(--electric);
+      color: var(--electric);
+      border-radius: var(--radius);
+      letter-spacing: 0.08em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--electric); color: #000; }
+
+    /* ─── WRAPPER ────────────────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(124,58,237,0.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--electric);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin-bottom: 28px;
+      background: rgba(124,58,237,0.08);
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--electric);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero-h1 {
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .hero-h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--violet), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero-mantra {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--electric);
+      margin-bottom: 40px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--violet), var(--electric));
+      color: #fff;
+      font-family: var(--body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 0 32px rgba(124,58,237,0.4);
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+      letter-spacing: 0.04em;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--electric); background: rgba(124,58,237,0.08); transform: translateY(-2px); }
+
+    /* Hero stats */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 48px;
+    }
+    .stat {
+      background: var(--bg2);
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: var(--display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--neon);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+    }
+    .chart-mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .chart-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--electric), transparent);
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .chart-title {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .chart-badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 4px 10px;
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border-radius: 4px;
+      border: 1px solid rgba(34,197,94,0.3);
+    }
+    /* SVG chart lines */
+    .chart-svg { width: 100%; height: 160px; }
+    .chart-levels {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .level-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+    }
+    .level-label { color: var(--muted); letter-spacing: 0.08em; }
+    .level-val { color: var(--text); }
+    .level-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      display: inline-block;
+    }
+    .dot-r { background: #f87171; }
+    .dot-g { background: #4ade80; }
+    .dot-y { background: #facc15; }
+
+    /* ─── SECTION HEADER ─────────────────────────────────────── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--electric);
+      margin-bottom: 16px;
+    }
+    .section-h2 {
+      font-family: var(--display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-h2 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--violet), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ─── INDICATORS ─────────────────────────────────────────── */
+    #indicators { padding: 100px 0; }
+    .indicators-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .indicator-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .indicator-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--neon));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .indicator-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-4px); }
+    .indicator-card:hover::before { opacity: 1; }
+    .indicator-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+    .indicator-name {
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .indicator-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .indicator-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: rgba(124,58,237,0.1);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--electric);
+    }
+    .indicator-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--electric);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+    .indicator-link:hover { gap: 10px; }
+
+    /* ─── COMMUNITY TIERS ────────────────────────────────────── */
+    #community { padding: 100px 0; background: linear-gradient(180deg, transparent, rgba(124,58,237,0.04), transparent); }
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .tier-card {
+      border-radius: 16px;
+      padding: 36px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .tier-card:hover { transform: translateY(-4px); }
+    .tier-card.featured {
+      border-color: rgba(168,85,247,0.5);
+      background: linear-gradient(145deg, rgba(124,58,237,0.15), rgba(13,13,26,0.95));
+      box-shadow: 0 0 60px rgba(124,58,237,0.2);
+    }
+    .tier-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--neon), var(--violet));
+    }
+    .tier-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 40px;
+      margin-bottom: 24px;
+    }
+    .tier-badge.free { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .tier-badge.pro { background: rgba(168,85,247,0.15); color: var(--neon); border: 1px solid rgba(168,85,247,0.4); }
+    .tier-name {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .tier-tagline {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 28px;
+    }
+    .tier-price {
+      margin-bottom: 28px;
+    }
+    .price-val {
+      font-family: var(--display);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--neon);
+      line-height: 1;
+    }
+    .price-val span { font-size: 1rem; color: var(--muted); font-weight: 400; }
+    .tier-features {
+      list-style: none;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tier-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.87rem;
+      color: var(--muted);
+    }
+    .tier-features li .check {
+      color: var(--electric);
+      margin-top: 2px;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .tier-features li.active { color: var(--text); }
+
+    /* ─── AFFILIATES ─────────────────────────────────────────── */
+    #affiliates { padding: 100px 0; }
+    .affiliates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .affiliate-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .affiliate-card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-4px); }
+    .affiliate-logo-wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .affiliate-name {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .affiliate-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .affiliate-note {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--electric);
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* ─── LEAD MAGNET ────────────────────────────────────────── */
+    #leadmagnet { padding: 100px 0; }
+    .leadmagnet-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(13,13,26,0.95));
+      border: 1px solid rgba(168,85,247,0.35);
+      border-radius: 20px;
+      padding: 56px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .leadmagnet-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--neon), var(--violet));
+    }
+    .leadmagnet-inner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,58,237,0.15), transparent 65%);
+      pointer-events: none;
+    }
+    .pdf-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .leadmagnet-h3 {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .leadmagnet-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    .leadmagnet-title {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--neon);
+      margin-bottom: 32px;
+    }
+    .leadmagnet-bullets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+    .bullet-chip {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 6px 14px;
+      background: rgba(124,58,237,0.1);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      color: var(--text);
+    }
+    .leadmagnet-form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .leadmagnet-form input {
+      flex: 1;
+      background: rgba(8,8,16,0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 18px;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .leadmagnet-form input:focus { border-color: var(--electric); }
+    .leadmagnet-form input::placeholder { color: var(--muted); }
+    .leadmagnet-disclaimer {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 48px 0 32px;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .footer-brand .nav-logo { margin-bottom: 12px; }
+    .footer-brand .nav-logo img { height: 32px; }
+    .footer-tagline {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .footer-col h4 {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--electric);
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-disclaimer {
+      font-size: 0.7rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+    .x-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .x-link:hover { border-color: var(--electric); color: var(--electric); }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .container { padding: 0 20px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .leadmagnet-inner { padding: 36px 24px; }
+      .leadmagnet-form { flex-direction: column; }
+      .footer-inner { flex-direction: column; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ════════════════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo"><img src="logo.png" alt="80 Tick Alpha" /></a>
+  <div class="nav-links">
+    <a href="#indicators">Indicators</a>
+    <a href="#community">Community</a>
+    <a href="#affiliates">Partners</a>
+    <a href="#leadmagnet">Free PDF</a>
+  </div>
+  <a href="#community" class="nav-cta">Join the Floor →</a>
+</nav>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-content">
+        <div class="hero-tag">NQ Futures · 80-Tick Range Bars · NY Session</div>
+        <h1 class="hero-h1">
+          Trade the <em>structure.</em><br>
+          Ignore the noise.
+        </h1>
+        <p class="hero-sub">
+          Precision tools, live analysis, and a focused community built around one edge —
+          scalping the NQ in the first two hours of the New York session.
+        </p>
+        <p class="hero-mantra">Structure &nbsp;·&nbsp; Patience &nbsp;·&nbsp; Discipline</p>
+        <div class="hero-ctas">
+          <a href="#community" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Join the Community
+          </a>
+          <a href="#leadmagnet" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v10M12 2l-3 3M12 2l3 3"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg>
+            Free Playbook PDF
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-val">80T</div>
+            <div class="stat-label">Range Bars</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">2h</div>
+            <div class="stat-label">NY Session Focus</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">4</div>
+            <div class="stat-label">Custom Indicators</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart mockup visual -->
+      <div class="hero-visual fade-up">
+        <div class="chart-mockup">
+          <div class="chart-header">
+            <span class="chart-title">NQ · 80-Tick · 09:34 EST</span>
+            <span class="chart-badge">● LIVE</span>
+          </div>
+          <!-- Simplified SVG chart -->
+          <svg class="chart-svg" viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(120,80,255,0.1)" stroke-width="1"/>
+            <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(120,80,255,0.1)" stroke-width="1"/>
+            <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(120,80,255,0.1)" stroke-width="1"/>
+            <!-- Resistance line -->
+            <line x1="0" y1="28" x2="400" y2="28" stroke="#f87171" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+            <!-- Support line -->
+            <line x1="0" y1="130" x2="400" y2="130" stroke="#4ade80" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+            <!-- Fill area -->
+            <path d="M0 100 L40 90 L80 105 L120 70 L160 80 L200 55 L240 65 L280 40 L320 52 L360 35 L400 42 L400 160 L0 160 Z" fill="url(#fillGrad)"/>
+            <!-- Price line -->
+            <path d="M0 100 L40 90 L80 105 L120 70 L160 80 L200 55 L240 65 L280 40 L320 52 L360 35 L400 42" fill="none" stroke="#a855f7" stroke-width="2" stroke-linejoin="round"/>
+            <!-- Signal dots -->
+            <circle cx="120" cy="70" r="5" fill="#4ade80" opacity="0.9"/>
+            <circle cx="280" cy="40" r="5" fill="#4ade80" opacity="0.9"/>
+            <circle cx="80" cy="105" r="5" fill="#f87171" opacity="0.9"/>
+          </svg>
+          <div class="chart-levels">
+            <div class="level-row">
+              <span class="level-label"><span class="level-dot dot-r"></span>Resistance</span>
+              <span class="level-val">21,847.50</span>
+            </div>
+            <div class="level-row">
+              <span class="level-label"><span class="level-dot dot-y"></span>POC</span>
+              <span class="level-val">21,802.25</span>
+            </div>
+            <div class="level-row">
+              <span class="level-label"><span class="level-dot dot-g"></span>Support</span>
+              <span class="level-val">21,764.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ INDICATORS ══════════════════════════════════════════════ -->
+<section id="indicators">
+  <div class="container">
+    <div class="section-header fade-up">
+      <p class="section-tag">// Tools</p>
+      <h2 class="section-h2">Built for <em>precision.</em><br>Not for noise.</h2>
+      <p class="section-sub">Every indicator solves a specific problem in NQ scalping. No clutter. No redundancy. Just edge.</p>
+    </div>
+
+    <div class="indicators-grid">
+
+      <div class="indicator-card fade-up">
+        <div class="indicator-icon">🎯</div>
+        <div class="indicator-name">FiskyBot Precision Levels</div>
+        <p class="indicator-desc">ATR-calculated confluence zones that extend until broken. Identifies high-probability reaction areas before price gets there — not after.</p>
+        <div class="indicator-tags">
+          <span class="tag">Key Levels</span>
+          <span class="tag">ATR Zones</span>
+          <span class="tag">Auto-Extend</span>
+        </div>
+        <a href="#community" class="indicator-link">Access in The Edge →</a>
+      </div>
+
+      <div class="indicator-card fade-up">
+        <div class="indicator-icon">⚡</div>
+        <div class="indicator-name">UT Bot v2 + ADX Filter</div>
+        <p class="indicator-desc">Trail-stop momentum system layered with ADX strength confirmation and a cooldown mechanism that eliminates chop signals in low-range environments.</p>
+        <div class="indicator-tags">
+          <span class="tag">Momentum</span>
+          <span class="tag">ADX Filter</span>
+          <span class="tag">Cooldown</span>
+        </div>
+        <a href="#community" class="indicator-link">Access in The Edge →</a>
+      </div>
+
+      <div class="indicator-card fade-up">
+        <div class="indicator-icon">🔄</div>
+        <div class="indicator-name">NQ Reversal Signals</div>
+        <p class="indicator-desc">5-point confluence scoring system that surfaces only the highest-probability reversal setups. A signal only fires when the setup earns it.</p>
+        <div class="indicator-tags">
+          <span class="tag">Reversals</span>
+          <span class="tag">Confluence Score</span>
+          <span class="tag">NQ Specific</span>
+        </div>
+        <a href="#community" class="indicator-link">Access in The Edge →</a>
+      </div>
+
+      <div class="indicator-card fade-up">
+        <div class="indicator-icon">📊</div>
+        <div class="indicator-name">Order Flow Delta Widget</div>
+        <p class="indicator-desc">Compact overlay showing real-time delta imbalance at key price levels. Confirms whether institutional order flow aligns with your bias before entry.</p>
+        <div class="indicator-tags">
+          <span class="tag">Order Flow</span>
+          <span class="tag">Delta</span>
+          <span class="tag">Overlay</span>
+        </div>
+        <a href="#community" class="indicator-link">Access in The Edge →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ COMMUNITY ═══════════════════════════════════════════════ -->
+<section id="community">
+  <div class="container">
+    <div class="section-header fade-up">
+      <p class="section-tag">// Community</p>
+      <h2 class="section-h2">Two tiers.<br><em>One mission.</em></h2>
+      <p class="section-sub">Whether you're learning the structure or ready to trade it with precision tools — there's a tier for where you are.</p>
+    </div>
+
+    <div class="tiers-grid">
+
+      <!-- Tier 1 -->
+      <div class="tier-card fade-up">
+        <span class="tier-badge pro">Starter</span>
+        <div class="tier-name">The Floor</div>
+        <div class="tier-tagline">Community · Pre-Market Analysis · Trade Recaps</div>
+        <div class="tier-price">
+          <div class="price-val">$29.99 <span>/ month</span></div>
+        </div>
+        <ul class="tier-features">
+          <li class="active"><span class="check">✦</span>Daily pre-market NQ analysis threads</li>
+          <li class="active"><span class="check">✦</span>End-of-day trade recaps</li>
+          <li class="active"><span class="check">✦</span>Community discussion channels</li>
+          <li class="active"><span class="check">✦</span>Strategy &amp; psychology posts</li>
+          <li><span class="check" style="color:var(--muted)">○</span>Indicator vault access</li>
+          <li><span class="check" style="color:var(--muted)">○</span>Private signal channel</li>
+        </ul>
+        <a href="https://whop.com/joined/80tickalpha/products/fiskybot-alerts-buy-and-sell/" target="_blank" rel="noopener" class="btn-secondary" style="width:100%; justify-content:center;">
+          Join The Floor →
+        </a>
+      </div>
+
+      <!-- Tier 2 -->
+      <div class="tier-card featured fade-up">
+        <span class="tier-badge pro">Full Access</span>
+        <div class="tier-name">The Edge</div>
+        <div class="tier-tagline">Indicators · Private Signals · Everything</div>
+        <div class="tier-price">
+          <div class="price-val">$99.99 <span>/ month</span></div>
+        </div>
+        <ul class="tier-features">
+          <li class="active"><span class="check">✦</span>Everything in The Floor</li>
+          <li class="active"><span class="check">✦</span>Full indicator vault (all 4 tools)</li>
+          <li class="active"><span class="check">✦</span>Private signal channel</li>
+          <li class="active"><span class="check">✦</span>Pine Script source code access</li>
+          <li class="active"><span class="check">✦</span>Direct Discord support channel</li>
+          <li class="active"><span class="check">✦</span>Early access to new indicators</li>
+        </ul>
+        <a href="https://whop.com/joined/80tickalpha/products/presiciion-levels-w-confluenc/" target="_blank" rel="noopener" class="btn-primary" style="width:100%; justify-content:center;">
+          Get The Edge →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ AFFILIATES ══════════════════════════════════════════════ -->
+<section id="affiliates">
+  <div class="container">
+    <div class="section-header fade-up">
+      <p class="section-tag">// Partners</p>
+      <h2 class="section-h2">Tools I actually <em>use.</em></h2>
+      <p class="section-sub">No filler links. These are the platforms in my setup every single trading day.</p>
+    </div>
+
+    <div class="affiliates-grid">
+
+      <div class="affiliate-card fade-up">
+        <div class="affiliate-logo-wrap">📈</div>
+        <div class="affiliate-name">TradingView</div>
+        <p class="affiliate-desc">
+          The platform all 80 Tick Alpha indicators are built on. 80-tick range bars, multi-panel layouts, Pine Script — TradingView handles the execution environment so I can focus on the edge.
+        </p>
+        <div class="affiliate-note">★ Affiliate partner — using my link supports this community at no cost to you</div>
+        <a href="https://www.tradingview.com/pricing/?share_your_love=dhenry028" target="_blank" rel="noopener" class="btn-secondary" style="font-size:0.82rem; padding:10px 20px;">
+          Start on TradingView →
+        </a>
+      </div>
+
+      <div class="affiliate-card fade-up">
+        <div class="affiliate-logo-wrap">🏆</div>
+        <div class="affiliate-name">Take Profit Trader</div>
+        <p class="affiliate-desc">
+          My preferred funded evaluation program for NQ scalping. Reasonable drawdown rules, straightforward payouts, and a structure that actually suits a disciplined 1–3 trades-per-session approach.
+        </p>
+        <div class="affiliate-note">★ Affiliate partner — I earn a commission on qualifying sign-ups</div>
+        <a href="https://takeprofittrader.com" target="_blank" rel="noopener" class="btn-secondary" style="font-size:0.82rem; padding:10px 20px;">
+          Explore Take Profit Trader →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ LEAD MAGNET ══════════════════════════════════════════════ -->
+<section id="leadmagnet">
+  <div class="container">
+    <div class="leadmagnet-inner fade-up">
+      <div class="pdf-icon">📘</div>
+      <h3 class="leadmagnet-h3">Free PDF — No Email Required</h3>
+      <p class="leadmagnet-sub">Start here. Learn the framework before picking up the tools.</p>
+      <p class="leadmagnet-title">"The NQ Precision Playbook"</p>
+      <div class="leadmagnet-bullets">
+        <span class="bullet-chip">80-Tick Methodology</span>
+        <span class="bullet-chip">Key Level Framework</span>
+        <span class="bullet-chip">Session Timing</span>
+        <span class="bullet-chip">Risk Rules</span>
+        <span class="bullet-chip">3-Panel Chart Setup</span>
+      </div>
+      <a href="playbook.pdf" download="80TickAlpha_NQ_Precision_Playbook.pdf" class="btn-primary" style="margin: 0 auto; display:inline-flex;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Free Playbook
+      </a>
+      <p class="leadmagnet-disclaimer" style="margin-top:16px;">No email needed. Direct PDF download. Always free.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo"><img src="logo.png" alt="80 Tick Alpha" /></a>
+        <div class="footer-tagline">Structure · Patience · Discipline</div>
+        <br/>
+        <a href="https://twitter.com/80TickAlpha" target="_blank" rel="noopener" class="x-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Follow @80TickAlpha
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="#indicators">Indicators</a>
+          <a href="#community">Community</a>
+          <a href="#affiliates">Partners</a>
+          <a href="#leadmagnet">Free PDF</a>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <a href="https://whop.com/joined/80tickalpha/products/fiskybot-alerts-buy-and-sell/" target="_blank" rel="noopener">The Floor ($29.99/mo)</a>
+          <a href="https://whop.com/joined/80tickalpha/products/presiciion-levels-w-confluenc/" target="_blank" rel="noopener">The Edge ($99.99/mo)</a>
+          <a href="https://discord.gg/pwTRZmRaCe" target="_blank" rel="noopener">Discord Server</a>
+        </div>
+        <div class="footer-col">
+          <h4>Partners</h4>
+          <a href="https://www.tradingview.com/pricing/?share_your_love=dhenry028" target="_blank" rel="noopener">TradingView</a>
+          <a href="https://takeprofittrader.com" target="_blank" rel="noopener">Take Profit Trader</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 80 Tick Alpha. All rights reserved.</div>
+      <p class="footer-disclaimer">
+        Trading futures involves substantial risk of loss. Past performance is not indicative of future results.
+        All content is for educational purposes only and does not constitute financial advice. Affiliate links may earn a commission.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ══════════════════════════════════════════════════ -->
+<script>
+  // Intersection Observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger children within a group
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Stagger siblings
+  document.querySelectorAll('.fade-up').forEach((el, i) => {
+    // Find siblings in same parent, stagger them
+    const siblings = Array.from(el.parentElement.querySelectorAll('.fade-up'));
+    const idx = siblings.indexOf(el);
+    el.dataset.delay = idx * 120;
+    observer.observe(el);
+  });
+
+  // PDF download button — direct file download (playbook.pdf)
+</script>
+
+</body>
+</html>
