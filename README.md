@@ -24,7 +24,7 @@
 1. Go to github.com → New repository → name it `80tickalpha`
 2. Upload `index.html` (and PDF if applicable) to the repo
 3. Settings → Pages → Source: main branch, / (root)
-4. Live at: https://yourusername.github.io/80tickalpha
+4. Live at: https://80tickalpha.github.io
 
 ## Customization Notes
 - All colors use CSS variables at the top of the file (`:root {}`)
